@@ -58,7 +58,7 @@ fn main() {
     fs::copy("RyzenAdj/win32/inpoutx64.dll",target_dir.join("inpoutx64.dll")).expect("fs::copy inpoutx64.dll file err.");
     fs::copy("RyzenAdj/win32/WinRing0x64.dll",target_dir.join("WinRing0x64.dll")).expect("fs::copy WinRing0x64.dll file err.");
     fs::copy("RyzenAdj/win32/WinRing0x64.sys",target_dir.join("WinRing0x64.sys")).expect("fs::copy WinRing0x64.sys file err.");
-
+/* 
     println!("cargo:warning=🚀target_dir is:{:?}",target_dir);
     let mut res = winres::WindowsResource::new();
     res.set_manifest(
@@ -78,5 +78,6 @@ fn main() {
         eprint!("{error}");
         std::process::exit(1);
     }
+    */
     
 }
