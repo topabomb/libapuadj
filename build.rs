@@ -1,7 +1,14 @@
 use std::path::PathBuf;
+use std::process::Command;
 use std::{env, fs};
 
 fn main() {
+    /* 
+    // Remove CMAKE_INTERPROCEDURAL_OPTIMIZATION option to prevent linking errors
+    Command::new("sed").args(["-i", "s/set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)/set(CMAKE_INTERPROCEDURAL_OPTIMIZATION FALSE)/g", "./RyzenAdj/CMakeLists.txt"])
+        .status()
+        .expect("Failed to update CMakeLists.txt");
+    */
     const LIB_NAME: &str = "libryzenadj";
     let dst = cmake::Config::new("RyzenAdj")
         .define("BUILD_SHARED_LIBS", "ON")
@@ -52,5 +59,24 @@ fn main() {
     fs::copy("RyzenAdj/win32/WinRing0x64.dll",target_dir.join("WinRing0x64.dll")).expect("fs::copy WinRing0x64.dll file err.");
     fs::copy("RyzenAdj/win32/WinRing0x64.sys",target_dir.join("WinRing0x64.sys")).expect("fs::copy WinRing0x64.sys file err.");
 
+    println!("cargo:warning=🚀target_dir is:{:?}",target_dir);
+    let mut res = winres::WindowsResource::new();
+    res.set_manifest(
+        r#"
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+    <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+        <security>
+            <requestedPrivileges>
+                <requestedExecutionLevel level="requireAdministrator" uiAccess="false"/>
+            </requestedPrivileges>
+        </security>
+    </trustInfo>
+</assembly>
+"#,
+    );
+    if let Err(error) = res.compile() {
+        eprint!("{error}");
+        std::process::exit(1);
+    }
     
 }

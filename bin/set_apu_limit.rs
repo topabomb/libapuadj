@@ -35,15 +35,15 @@ fn main() {
         println!("slow-limit: {},slow-value: {}", slow_limit, slow_value);
 
         //设置功耗限制
-        let power_limit = 15.0 * 1000.0;
+        let power_limit = 10.0 * 1000.0;
         
         if (stapm_limit * 1000.0) as u32 != power_limit as u32  {
-            println!("stapm_limit is {}, set power limit to: {}", stapm_limit * 1000.0,power_limit);
+            println!("🚀stapm_limit is {}, set power limit to: {}", stapm_limit * 1000.0,power_limit);
             unsafe { set_stapm_limit(adj, power_limit as u32) };
             unsafe { set_fast_limit(adj, (power_limit * 1.2) as u32) };
             unsafe { set_slow_limit(adj, (power_limit * 1.5) as u32) };
         }
 
-        sleep(std::time::Duration::from_secs(2));
+        sleep(std::time::Duration::from_secs(15));
     }
 }

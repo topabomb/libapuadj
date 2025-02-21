@@ -8,3 +8,10 @@ edition = "2021"
 [build-dependencies]
 bindgen = "0.71.0"
 cmake = "0.1.45"
+winres = "0.1"
+
+[[bin]]
+
+name="set_apu_limit"
+path="bin/set_apu_limit.rs"
+
